@@ -1,4 +1,0 @@
-src/.git*
-src/.vscode
-src/src/include/*/.git*
-src/src/include/*/.ci

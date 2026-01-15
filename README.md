@@ -1,36 +1,18 @@
-This should produce a working deb for trixie. Working on moving this to a github action...
+## Build a new version
+* update submodule to current revision of upstream repo
+* tag release: ${UPSTREAM_VER}-${INTEGER} (reset the appended int to 1 when upgrading to a new upstream release)
+  * example: `git tag -s 0.0.1-1 -m 0.0.1-1` - (tag _must_ be annotated, and _should_ be signed)
+  * use a non-integer suffix for test releases: `git tag -s 0.0.1-r001 -m 0.0.1-r001`
+  * test releases may be on non-main branch
+* `git push --tags`
+* GitHub Actions will build packages for all target platforms
 
+To test locally:
 ```
 git clone --recursive https://github.com/mlibrary/grok-deb && cd grok-deb
-export SOURCE_DATE_EPOCH=$(git show --no-patch --format=%ct)
 
-podman build -t mlibrary/grok-deb .; podman run --rm -it localhost/mlibrary/grok-deb:latest bash
+podman build -t mlibrary/grok-deb .
+podman run --rm -it -v $(pwd):/src localhost/mlibrary/grok-deb:latest bash
 
-cmake \
-  -DCMAKE_BUILD_TYPE=Release \
-  -DGRK_BUILD_DOC=ON         \
-  -DGRK_BUILD_JPEG=OFF       \
-  -DGRK_BUILD_LCMS2=OFF      \
-  -DGRK_BUILD_LIBPNG=OFF     \
-  -DGRK_BUILD_LIBTIFF=OFF    \
-  -DCMAKE_INSTALL_PREFIX=/usr ..
-make -j8
-make DESTDIR=. install
-
-fpm -s dir -t deb \
-  --name grokj2k \
-  --version 20.0.4-0 \
-  --conflicts grokj2k-tools \
-  --conflicts libgrokj2k1 \
-  --depends libimage-exiftool-perl \
-  --depends libjpeg62-turbo \
-  --depends liblcms2-2 \
-  --depends libperl5.40 \
-  --depends libpng16-16t64 \
-  --depends libtiff6 \
-  --deb-dist trixie \
-  --url https://github.com/GrokImageCompression/grok \
-  --description "Grok JPEG 2000 library" \
-  --maintainer "University of Michigan Library IT <lit-noreply@umich.edu>" \
-  usr/bin=/usr usr/include=/usr usr/lib=/usr usr/share/man=/usr/share
+./build.sh
 ```
