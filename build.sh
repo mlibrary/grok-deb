@@ -5,13 +5,20 @@ export SOURCE_DATE_EPOCH=$(git show --no-patch --format=%ct)
 if [ -f /etc/os-release ]; then
   . /etc/os-release
   case $VERSION_CODENAME in
+  bullseye)
+    LIBPNG=libpng16-16
+    LIBPERL=libperl5.32
+    LIBTIFF=libtiff5
+    ;;
   bookworm)
     LIBPNG=libpng16-16
     LIBPERL=libperl5.36
+    LIBTIFF=libtiff6
     ;;
   trixie)
     LIBPNG=libpng16-16t64
     LIBPERL=libperl5.40
+    LIBTIFF=libtiff6
     ;;
   *)
     echo "Don't know how to build package for '$ID $VERSION_CODENAME'" >&2
@@ -54,7 +61,7 @@ fpm -s dir -t deb \
   --depends liblcms2-2 \
   --depends $LIBPERL \
   --depends $LIBPNG \
-  --depends libtiff6 \
+  --depends $LIBTIFF \
   --deb-dist $VERSION_CODENAME \
   --deb-generate-changes \
   --url https://github.com/GrokImageCompression/grok \

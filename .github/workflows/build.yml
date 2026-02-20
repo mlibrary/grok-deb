@@ -11,8 +11,7 @@ jobs:
     strategy:
       matrix:
         image:
-        - debian:12
-        - debian:13
+        - debian:11
         host:
         - ubuntu-24.04-arm
         - ubuntu-24.04
@@ -25,6 +24,17 @@ jobs:
         apt-get update
         apt-get install --yes --no-install-recommends git build-essential cmake doxygen ruby libimage-exiftool-perl libjpeg62-turbo-dev liblcms2-dev libtiff-dev libpng-dev pkgconf
         gem install fpm -v 1.17.0
+        apt-get install --yes --no-install-recommends curl
+        apt-get install --yes file
+        if [ $(dpkg --print-architecture) = arm64 ]; then
+          curl -L https://github.com/Kitware/CMake/releases/download/v4.2.3/cmake-4.2.3-linux-aarch64.tar.gz -o /tmp/cmake.tar.gz
+        else
+          curl -L https://github.com/Kitware/CMake/releases/download/v4.2.3/cmake-4.2.3-linux-x86_64.tar.gz -o /tmp/cmake.tar.gz
+        fi
+        tar -C /usr/local -xf /tmp/cmake.tar.gz --strip-components=1
+        which cmake
+        cmake --version
+        file $(which cmake)
     - uses: actions/checkout@v6
       with:
         submodules: recursive
