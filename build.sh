@@ -61,7 +61,3 @@ fpm -s dir -t deb \
   --description "Grok JPEG 2000 library" \
   --maintainer "University of Michigan Library IT <lit-noreply@umich.edu>" \
   usr/bin=/usr usr/include=/usr usr/lib=/usr usr/share/man=/usr/share
-
-# report name of output files to github action
-DEB_NAME=$(ls grokj2k_*.deb | sed 's/\.deb//' | head -1)
-echo "debname=${DEB_NAME}" >> "${GITHUB_OUTPUT:-/dev/null}"

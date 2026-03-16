@@ -35,5 +35,11 @@ jobs:
       run: ./build.sh
     - uses: actions/upload-artifact@v7
       with:
-        name: ${{ steps.build_deb.outputs.debname }}.zip
-        path: src/build/grokj2k_*
+        archive: false
+        name: deb
+        path: src/build/grokj2k_*.deb
+    - uses: actions/upload-artifact@v7
+      with:
+        archive: false
+        name: changes
+        path: src/build/grokj2k_*.changes
