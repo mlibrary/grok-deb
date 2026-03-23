@@ -12,7 +12,7 @@ To test locally:
 git clone --recursive https://github.com/mlibrary/grok-deb && cd grok-deb
 
 podman build -t mlibrary/grok-deb .
-podman run --rm -it -v $(pwd):/src localhost/mlibrary/grok-deb:latest bash
+podman run --rm -it -v $(pwd):/grok localhost/mlibrary/grok-deb:latest bash
 
 ./build.sh
 ```

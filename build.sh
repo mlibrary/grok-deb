@@ -29,8 +29,8 @@ if [ -z $PACKAGE_VERSION ]; then
   PACKAGE_VERSION=$(git describe --exact-match 2>/dev/null || git log -1 --pretty=%h --abbrev-commit)
 fi
 
-rm -rf src/build
-mkdir -p src/build && cd src/build
+rm -rf grok/build
+mkdir -p grok/build && cd grok/build
 
 cmake \
   -DCMAKE_BUILD_TYPE=Release  \
