@@ -9,6 +9,7 @@ jobs:
   build:
     name: Build
     strategy:
+      fail-fast: false
       matrix:
         image:
         - debian:12
