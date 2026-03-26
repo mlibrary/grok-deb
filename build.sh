@@ -1,10 +1,13 @@
 #!/bin/sh
 
-export SOURCE_DATE_EPOCH=$(git show --no-patch --format=%ct)
+set -e
+
+SOURCE_DATE_EPOCH=$(git show --no-patch --format=%ct)
+export SOURCE_DATE_EPOCH
 
 if [ -f /etc/os-release ]; then
   . /etc/os-release
-  case $VERSION_CODENAME in
+  case "$VERSION_CODENAME" in
   bookworm)
     LIBPNG=libpng16-16
     LIBPERL=libperl5.36
@@ -24,8 +27,9 @@ fi
 
 # If we're running in a github action we need to use the environment to get our tag name,
 # because the shallow clone is missing the data we need. Otherwise, just use git.
-PACKAGE_VERSION=$GITHUB_REF_NAME
-if [ -z $PACKAGE_VERSION ]; then
+if [ -n "$GITHUB_REF_NAME" ]; then
+  PACKAGE_VERSION="$GITHUB_REF_NAME"
+else
   PACKAGE_VERSION=$(git describe --exact-match 2>/dev/null || git log -1 --pretty=%h --abbrev-commit)
 fi
 
@@ -46,7 +50,7 @@ make DESTDIR=. install
 
 fpm -s dir -t deb \
   --name grokj2k \
-  --version ${PACKAGE_VERSION}+${ID%ian}${VERSION_ID} \
+  --version "${PACKAGE_VERSION}+${ID%ian}${VERSION_ID}" \
   --conflicts grokj2k-tools \
   --conflicts libgrokj2k1 \
   --depends libimage-exiftool-perl \
@@ -55,7 +59,7 @@ fpm -s dir -t deb \
   --depends $LIBPERL \
   --depends $LIBPNG \
   --depends libtiff6 \
-  --deb-dist $VERSION_CODENAME \
+  --deb-dist "$VERSION_CODENAME" \
   --deb-generate-changes \
   --url https://github.com/GrokImageCompression/grok \
   --description "Grok JPEG 2000 library" \
