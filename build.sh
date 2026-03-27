@@ -9,12 +9,14 @@ if [ -f /etc/os-release ]; then
   . /etc/os-release
   case "$VERSION_CODENAME" in
   bookworm)
-    LIBPNG=libpng16-16
+    LIBFMT=libfmt9
     LIBPERL=libperl5.36
+    LIBPNG=libpng16-16
     ;;
   trixie)
-    LIBPNG=libpng16-16t64
+    LIBFMT=libfmt10
     LIBPERL=libperl5.40
+    LIBPNG=libpng16-16t64
     ;;
   *)
     echo "Don't know how to build package for '$ID $VERSION_CODENAME'" >&2
@@ -43,6 +45,7 @@ cmake \
   -DGRK_BUILD_LCMS2=OFF       \
   -DGRK_BUILD_LIBPNG=OFF      \
   -DGRK_BUILD_LIBTIFF=OFF     \
+  -DSPDLOG_FMT_EXTERNAL=ON    \
   -DCMAKE_INSTALL_PREFIX=/usr \
   ..
 make -j8
@@ -56,6 +59,7 @@ fpm -s dir -t deb \
   --depends libimage-exiftool-perl \
   --depends libjpeg62-turbo \
   --depends liblcms2-2 \
+  --depends $LIBFMT \
   --depends $LIBPERL \
   --depends $LIBPNG \
   --depends libtiff6 \
