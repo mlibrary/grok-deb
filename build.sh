@@ -25,13 +25,7 @@ else
   exit 1
 fi
 
-# If we're running in a github action we need to use the environment to get our tag name,
-# because the shallow clone is missing the data we need. Otherwise, just use git.
-if [ -n "$GITHUB_REF_NAME" ]; then
-  PACKAGE_VERSION="$GITHUB_REF_NAME"
-else
-  PACKAGE_VERSION=$(git describe --exact-match 2>/dev/null || git log -1 --pretty=%h --abbrev-commit)
-fi
+PACKAGE_VERSION=$(git describe --exact-match 2>/dev/null || git log -1 --pretty=0.0.0-git+%h --abbrev-commit)
 
 rm -rf grok/build
 mkdir -p grok/build && cd grok/build
