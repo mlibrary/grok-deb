@@ -25,7 +25,7 @@ jobs:
     - name: Install build dependencies
       run: |
         apt-get update
-        apt-get install --yes --no-install-recommends git build-essential cmake doxygen ruby libimage-exiftool-perl libjpeg62-turbo-dev liblcms2-dev libtiff-dev libpng-dev pkgconf
+        apt-get install --yes --no-install-recommends git build-essential cmake doxygen ruby libjpeg62-turbo-dev liblcms2-dev libtiff-dev libpng-dev pkgconf
         gem install fpm -v 1.17.0
     - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
       with:
