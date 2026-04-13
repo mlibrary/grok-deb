@@ -47,7 +47,6 @@ fpm -s dir -t deb \
   --conflicts libgrokj2k1 \
   --depends libjpeg62-turbo \
   --depends liblcms2-2 \
-  --depends $LIBPERL \
   --depends $LIBPNG \
   --depends libtiff6 \
   --deb-dist "$VERSION_CODENAME" \
