@@ -10,11 +10,9 @@ if [ -f /etc/os-release ]; then
   case "$VERSION_CODENAME" in
   bookworm)
     LIBPNG=libpng16-16
-    LIBPERL=libperl5.36
     ;;
   trixie)
     LIBPNG=libpng16-16t64
-    LIBPERL=libperl5.40
     ;;
   *)
     echo "Don't know how to build package for '$ID $VERSION_CODENAME'" >&2
@@ -47,7 +45,6 @@ fpm -s dir -t deb \
   --version "${PACKAGE_VERSION}+${ID%ian}${VERSION_ID}" \
   --conflicts grokj2k-tools \
   --conflicts libgrokj2k1 \
-  --depends libimage-exiftool-perl \
   --depends libjpeg62-turbo \
   --depends liblcms2-2 \
   --depends $LIBPERL \
