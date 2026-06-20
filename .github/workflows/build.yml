@@ -27,7 +27,7 @@ jobs:
         apt-get update
         apt-get install --yes --no-install-recommends git build-essential cmake doxygen ruby libjpeg62-turbo-dev liblcms2-dev libtiff-dev libpng-dev pkgconf
         gem install fpm -v 1.17.0
-    - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+    - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
       with:
         submodules: recursive
     - name: git config
